@@ -1,0 +1,24 @@
+
+<!-- Модальное окно -->
+<div class="modal fade" id="delContent-{{ content.pk }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Вы уверены, что хотите удалить контент</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет, передумал</button>
+        <a href="{% url 'content_delete' content.pk %}" class="btn btn-danger">Да, удалить</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+

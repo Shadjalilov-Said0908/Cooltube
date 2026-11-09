@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+<div class="container">
+
+    <div class="block-banner"></div>
+
+    <div class="profile-data d-flex gap-5">
+
+        <img src="{{ profile.get_photo }}" alt="" width="200"
+             height="200" class="rounded-circle">
+
+        <div class="profile-info text-light">
+            <h4> Канал: {{ profile.name }}</h4>
+            <h6>@{{ profile.user.username }}</h6>
+            <p>Имя: {{ profile.user.first_name }}</p>
+            <p>Фамилия: {{ profile.user.last_name }}</p>
+            <p>Почта: {{ profile.user.email }}</p>
+            <p>О профиле: {{ profile.about }}</p>
+
+            <div class="profile_btns d-flex gap-3">
+
+                <a class="btn btn-dark" data-bs-toggle="collapse" href="#changeUserdata" role="button"
+                   aria-expanded="false" aria-controls="collapseExample">
+                    изменить профиль
+                </a>
+                <button class="btn btn-dark" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#changePassword" aria-expanded="false" aria-controls="collapseExample">
+                    изменить пароль
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="change_user_data_password my-3 text-light">
+
+        <div class="collapse" id="changeUserdata">
+            <div class="card card-body bg-black text-light">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ user_form.as_p }}
+                    {{ profile_form.as_p }}
+                    <button class="btn btn-secondary" type="submit">изменить</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="collapse" id="changePassword">
+            <div class="card card-body bg-black text-light">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ password_form.as_p }}
+                    <button class="btn btn-secondary" type="submit">изменить</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="text-light my-4">
+    <div class="profile-contents mt-5">
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+            {% for content in contents %}
+            {% include 'cool_tube/components/_content_card.html' %}
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock main %}

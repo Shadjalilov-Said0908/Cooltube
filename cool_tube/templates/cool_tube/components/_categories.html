@@ -1,0 +1,17 @@
+{% load cool_tags %}
+
+<div class="btn-group">
+    <ul class="nav">
+        <li><a href="{% url 'main' %}" class="btn btn-dark nav-item m-2">Все</a></li>
+        {% get_categories as categories %}
+        {% for cat in categories %}
+        <li><a href="{{ cat.get_absolute_url }}" class="btn btn-dark nav-item m-2">{{cat.title}}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+
+
+

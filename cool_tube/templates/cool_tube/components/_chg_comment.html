@@ -1,0 +1,18 @@
+<div class="collapse" id="chgComment-{{ comment.pk }}">
+    <div class="card card-body bg-black text-light">
+
+        <form action="{% url 'comment_update' comment.pk %}" method="post" class="w-100 text-end">
+            {% csrf_token %}
+            <p>
+
+                <textarea name="text" cols="40" rows="10" class="form-control bg-black text-light comment-input"
+                          placeholder="Введите комментарий"
+                          style="height: 30px;  border: 1px solid white" required=""
+                          id="id_text">{{ comment.text }}</textarea>
+
+            </p>
+            <button class="btn btn-light " style="border-radius: 17px;">изменить</button>
+        </form>
+
+    </div>
+</div>

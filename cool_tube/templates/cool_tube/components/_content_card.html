@@ -1,0 +1,61 @@
+<div class="col">
+
+
+    <div class="card bg-black text-light h-100">
+        <a href="{{ content.get_absolute_url }}">
+            <img src="{{ content.photo.url }}" class="card-img-top" alt="..." width="100%" height="200px">
+        </a>
+        <div class="card-body">
+            <div class="content-text d-flex justify-content-between">
+
+                <div class="d-flex gap-2">
+                    <img src="https://avatars.mds.yandex.net/get-yapic/43978/5cPmC00nWg5G50nhQoTL8fCfQU-1/orig"
+                         alt="" width="35px" height="35px" class="rounded-circle">
+                    <div class="about">
+                        <a href="{{ content.get_absolute_url }}" style="text-decoration: none;">
+                            <h6 class="card-title fw-bold text-light">{{ content.title|truncatechars:70 }}</h6>
+                        </a>
+                        <p class="card-text text-secondary fw-bold">
+                            <a href="{% url 'profile' content.author.pk %}" class="text-light navbar-brand">
+                                {{ content.author.username }}
+                            </a>
+                            -> {{ content.views }}.
+                            <small>{{content.created_at|timesince}} </small>
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% if 'profile' in request.path and content.author == request.user %}
+                <div class="content-action">
+                    <div class="dropdown">
+                        <a class="text-light" type="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </a>
+                        <ul class="dropdown-menu bg-dark">
+                            <li><a class="dropdown-item bg-dark text-light" href="{% url 'content_update' content.pk %}">
+                                <i class="bi bi-pencil"></i> изменить
+                            </a></li>
+
+                            <li><a class="dropdown-item text-light bg-dark" type="button" data-bs-toggle="modal"
+                                       data-bs-target="#delContent-{{ content.pk }}">
+                                    <i class="bi bi-trash"></i> удалить</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                {% include 'cool_tube/components/_del_content.html' %}
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+
+

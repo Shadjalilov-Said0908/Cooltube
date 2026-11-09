@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<div class="auth d-flex justify-content-center">
+
+    <div class="col-3">
+        <div class="card card-body text-light bg-black">
+            <h5 class="text-center">{{ title }}</h5>
+
+            <form action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-dark w-100" type="submit">подтвердить</button>
+                <hr class="bg-light">
+                <small class="text-light">Уже есть аккаунт ?</small>
+                <a href="{% url 'login' %}" class="btn btn-primary w-100">войти</a>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock main %}
+
+
+
+
+
+
+
+

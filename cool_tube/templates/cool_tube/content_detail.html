@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+<div class="content_detail d-flex">
+    <div class="col-8">
+
+        <div class="content_video bg-black rounded" style="height: 600px">
+            <video controlsList="nodownload" class="rounded" controls="controls" autoplay preload="metadata"
+                   height="100%" width="100%">
+                <source src="{{ content.video.url }}" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="about_content mt-3 text-light">
+            <h5>{{ content.title }}</h5>
+            <div class="content_author d-flex gap-3 mt-3 align-items-center">
+                <div class="author_photo">
+                    <img src="https://avatars.mds.yandex.net/get-yapic/43978/5cPmC00nWg5G50nhQoTL8fCfQU-1/orig"
+                         alt="" width="50px" height="50px" class="rounded-circle">
+                </div>
+                <div class="author_info">
+                    <a class="text-light fw-bold fs-5 navbar-brand" href="">Author username</a>
+                    <p class="text-secondary">0 подписчиков</p>
+                </div>
+                <div class="subscribe">
+                    <a href="#" class="btn btn-light text-dark" style="border-radius: 25px">Подписаться</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content_descr  mt-3 text-light rounded p-3">
+            <p>{{ content.views }} просмотров <small> {{ content.created_at|timesince }}</small></p>
+
+            <p>
+                <button class="btn btn-dark" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Читать описание
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body bg-dark text-light">
+                    <p>{{ content.descr|linebreaks }}</p>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="comment_block mt-3">
+            <h5 class="text-light">0 комментария</h5>
+
+            {% if request.user.is_authenticated %}
+            <div class="comment_form d-flex gap-3 mt-4">
+                <img src="https://avatars.mds.yandex.net/get-yapic/43978/5cPmC00nWg5G50nhQoTL8fCfQU-1/orig"
+                     alt="" width="50" height="50" class="rounded-circle">
+
+                <form action="{% url 'comment_save' content.pk %}" method="post" class="w-100 text-end">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button class="btn btn-light " style="border-radius: 17px;">Оставить комментарий</button>
+                </form>
+
+            </div>
+            {% endif %}
+
+            <div class="comment_list mt-5">
+
+                {% for comment in comments %}
+                <div class="comment p-2 d-flex justify-content-between text-light mt-3">
+
+                    <div class="about_comment d-flex gap-2 w-100">
+                        <img src="https://avatars.mds.yandex.net/get-yapic/43978/5cPmC00nWg5G50nhQoTL8fCfQU-1/orig"
+                             alt="" width="40" height="40" class="rounded-circle">
+                        <div class="comment_info w-100">
+                            <a href="" class="navbar-brand">{{ comment.author }} </a>
+                            <small>{{ comment.created_at|timesince }}</small>
+                            <p>{{ comment.text }}</p>
+                            {% if comment.author == request.user %}
+                            {% include 'cool_tube/components/_chg_comment.html' %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if comment.author == request.user %}
+                    <div class="comment_action">
+                        <div class="dropdown">
+                            <a class=" text-light" href="#" role="button" id="dropdownMenuLink"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+
+                            <ul class="dropdown-menu bg-dark">
+                                <li><a class="dropdown-item text-light bg-dark" data-bs-toggle="collapse"
+                                       href="#chgComment-{{ comment.pk }}" role="button" aria-expanded="false"
+                                       aria-controls="collapseExample">
+                                    <i class="bi bi-pencil"></i> изменить</a></li>
+
+                                <li><a class="dropdown-item text-light bg-dark" type="button" data-bs-toggle="modal"
+                                       data-bs-target="#delComment-{{ comment.pk }}">
+                                    <i class="bi bi-trash"></i> удалить</a></li>
+
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    {% include 'cool_tube/components/_modal_confirm.html' %}
+                    {% endif %}
+
+
+                </div>
+                {% endfor %}
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="col-4">
+
+        <div class="same_contents d-flex flex-column gap-3 px-3">
+            <h4 class="text-light">Рекомендуемые</h4>
+            {% for content in same_contents %}
+
+            <a href="{{ content.get_absolute_url }}" style="text-decoration: none">
+                <div class="content-card d-flex text-light gap-2">
+                    <div class="content-photo">
+                        <img src="{{ content.photo.url }}" class="rounded"
+                             width="280px" height="160" alt="...">
+                    </div>
+
+                    <div class="content-text">
+                        <h6 class="mb-0"> {{ content.title|truncatechars:50 }}</h6>
+                        <p class="mb-0 text-secondary">author name</p>
+                        <small class="text-secondary">{{ content.views }} просмотры
+                            <small> {{ content.created_at|timesince}} </small>
+                        </small>
+
+                    </div>
+
+                </div>
+            </a>
+
+            {% endfor %}
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<style>
+    .comment_form textarea::placeholder{
+        color: grey;
+    }
+</style>
+
+
+{% endblock main %}

@@ -1,0 +1,13 @@
+# Специфично для PyCharm
+.idea/
+
+# Специфично для Django и Python
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+.env
+
+# Виртуальное окружение (укажите то имя, которое у вас, обычно venv или env)
+venv/
+env/
